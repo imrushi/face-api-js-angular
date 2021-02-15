@@ -120,5 +120,8 @@
       }
     }
   },
-  "defaultProject": "try-face"
+  "defaultProject": "try-face",
+  "cli": {
+    "analytics": false
+  }
 }

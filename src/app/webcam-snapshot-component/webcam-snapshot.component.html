@@ -1,0 +1,13 @@
+<div class="video-container">
+  <video
+    [class.show]="!isCaptured"
+    [class.hide]="isCaptured"
+    #video
+    id="video"
+    [width]="WIDTH"
+    [height]="HEIGHT"
+    autoplay
+    muted
+  ></video>
+  <div #canvas id="canvasEL"></div>
+</div>
