@@ -56,6 +56,13 @@ export class WebcamSnapshotComponent implements OnInit {
         // console.log(this.video);
 
         document.getElementById('canvasEL').appendChild(this.canvas);
+        this.canvas.setAttribute('id', 'canvass');
+        this.canvas.setAttribute(
+          'style',
+          `position: fixed;
+        top: 0;
+        left: 0;`
+        );
         this.displaySize = {
           width: this.vid.width,
           height: this.vid.height,
@@ -81,75 +88,4 @@ export class WebcamSnapshotComponent implements OnInit {
         }, 100);
       });
   }
-
-  // async playVideo() {
-  //   await faceapi.nets.tinyFaceDetector.loadFromUri('../../assets/models'),
-  //     await faceapi.nets.faceLandmark68Net.loadFromUri('../../assets/models'),
-  //     await faceapi.nets.faceRecognitionNet.loadFromUri('../../assets/models'),
-  //     await faceapi.nets.faceExpressionNet.loadFromUri('../../assets/models');
-
-  //   this.stream = await navigator.mediaDevices.getUserMedia({ video: true });
-  //   this.video.srcObject = this.stream;
-  //   this.videoCanvas();
-  // }
-
-  // videoCanvas() {
-  //   this.elRef.nativeElement.addEventListener('play', () => {
-  //     this.canvas = faceapi.createCanvasFromMedia(this.video);
-  //     this.canvasRef.nativeElement.appendChild(this.canvas);
-  //     this.displayValues = {
-  //       width: this.video.width,
-  //       height: this.video.height,
-  //     };
-
-  //     // ### Resize media elements
-  //     faceapi.matchDimensions(this.canvas, this.displayValues);
-  //     setInterval(async () => {
-  //       this.detection = await faceapi
-  //         .detectAllFaces(this.video, new faceapi.TinyFaceDetectorOptions())
-  //         .withFaceLandmarks()
-  //         .withFaceDescriptors();
-
-  //       this.resizedDetections = faceapi.resizeResults(
-  //         this.detection,
-  //         this.displayValues
-  //       );
-  //       this.canvas
-  //         .getContext('2d')
-  //         .clearRect(0, 0, this.canvas.width, this.canvas.height);
-  //       faceapi.draw.drawDetections(this.canvas, this.resizedDetections);
-  //     }, 100);
-  //   });
-  // }
-
-  // async setupDevices() {
-  //   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  //     try {
-  //       const stream = await navigator.mediaDevices.getUserMedia({
-  //         video: true,
-  //       });
-  //       if (stream) {
-  //         this.video.nativeElement.srcObject = stream;
-  //         this.video.nativeElement.play();
-  //         this.error = null;
-  //       } else {
-  //         this.error = 'You have no output video device';
-  //       }
-  //     } catch (e) {
-  //       this.error = e;
-  //     }
-  //   }
-  // }
-
-  // capture() {
-  //   this.drawImageToCanvas(this.video.nativeElement);
-  //   this.captures.push(this.canvas.nativeElement.toDataURL('image/png'));
-  //   this.isCaptured = true;
-  // }
-
-  // drawImageToCanvas(image: any) {
-  //   this.canvas.nativeElement
-  //     .getContext('2d')
-  //     .drawImage(image, 0, 0, this.WIDTH, this.HEIGHT);
-  // }
 }
