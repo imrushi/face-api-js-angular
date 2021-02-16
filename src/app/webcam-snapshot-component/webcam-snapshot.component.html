@@ -1,7 +1,5 @@
 <div class="video-container">
   <video
-    [class.show]="!isCaptured"
-    [class.hide]="isCaptured"
     #video
     id="video"
     [width]="WIDTH"
@@ -10,4 +8,15 @@
     muted
   ></video>
   <div #canvas id="canvasEL"></div>
+
+  <canvas
+    #canvasPhoto
+    id="canEl"
+    [class.show]="!isCaptured"
+    [class.hide]="isCaptured"
+    [width]="WIDTH"
+    [height]="HEIGHT"
+  ></canvas>
+
+  <button (click)="onReset()">Reset</button>
 </div>

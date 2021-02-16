@@ -16,6 +16,9 @@ export class WebcamSnapshotComponent implements OnInit {
   @ViewChild('canvas')
   public canvasRef: ElementRef;
 
+  @ViewChild('canvasPhoto')
+  public canvasPhoto: ElementRef;
+
   constructor(private elRef: ElementRef) {}
 
   captures: string[] = [];
@@ -29,6 +32,7 @@ export class WebcamSnapshotComponent implements OnInit {
   displaySize;
   vid;
   ctx;
+  cropF;
   async ngOnInit() {
     await Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri('../../assets/models'),
@@ -74,6 +78,12 @@ export class WebcamSnapshotComponent implements OnInit {
             .withFaceLandmarks()
             .withFaceExpressions();
 
+          if (this.detection.length == 0) {
+            console.log('0');
+          } else if (this.detection.length == 1 && !this.isCaptured) {
+            this.capture();
+          }
+          // console.log(this.detection);
           this.resizedDetections = faceapi.resizeResults(
             this.detection,
             this.displaySize
@@ -87,5 +97,29 @@ export class WebcamSnapshotComponent implements OnInit {
           faceapi.draw.drawFaceExpressions(this.canvas, this.resizedDetections);
         }, 100);
       });
+  }
+  capture() {
+    this.drawImageToCanvas(this.video.nativeElement);
+    this.captures.push(this.canvasPhoto.nativeElement.toDataURL('image/png'));
+    console.log(this.captures);
+    this.isCaptured = true;
+  }
+
+  drawImageToCanvas(image: any) {
+    this.canvasPhoto.nativeElement
+      .getContext('2d')
+      .drawImage(image, 0, 0, this.WIDTH, this.HEIGHT);
+  }
+  onReset() {
+    this.captures = [];
+    this.isCaptured = false;
+    this.canvasPhoto.nativeElement
+      .getContext('2d')
+      .clearRect(
+        0,
+        0,
+        this.canvasPhoto.nativeElement.width,
+        this.canvasPhoto.nativeElement.height
+      );
   }
 }
