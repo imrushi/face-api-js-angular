@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "try-face": {
+    "face-api-js-angular": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/try-face",
+            "outputPath": "dist/face-api-js-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -61,18 +61,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "try-face:build"
+            "browserTarget": "face-api-js-angular:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "try-face:build:production"
+              "browserTarget": "face-api-js-angular:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "try-face:build"
+            "browserTarget": "face-api-js-angular:build"
           }
         },
         "test": {
@@ -109,18 +109,18 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "try-face:serve"
+            "devServerTarget": "face-api-js-angular:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "try-face:serve:production"
+              "devServerTarget": "face-api-js-angular:serve:production"
             }
           }
         }
       }
     }
   },
-  "defaultProject": "try-face",
+  "defaultProject": "face-api-js-angular",
   "cli": {
     "analytics": false
   }

@@ -10,25 +10,21 @@ export class WebcamSnapshotComponent implements OnInit {
   WIDTH = 440;
   HEIGHT = 280;
 
-  @ViewChild('video')
+  @ViewChild('video',{ static: true })
   public video: ElementRef;
 
-  @ViewChild('canvas')
+  @ViewChild('canvas',{ static: true })
   public canvasRef: ElementRef;
 
   constructor(private elRef: ElementRef) {}
 
-  captures: string[] = [];
-  error: any;
-  isCaptured: boolean;
   stream: any;
-  detection;
-  displayValues;
-  resizedDetections;
-  canvas;
-  displaySize;
-  vid;
-  ctx;
+  detection: any;
+  resizedDetections: any;
+  canvas: any;
+  canvasEl: any;
+  displaySize: any;
+  videoInput: any;
   async ngOnInit() {
     await Promise.all([
       faceapi.nets.tinyFaceDetector.loadFromUri('../../assets/models'),
@@ -38,24 +34,22 @@ export class WebcamSnapshotComponent implements OnInit {
     ]).then(() => this.startVideo());
   }
   startVideo() {
-    this.vid = document.getElementById('video');
+    this.videoInput = this.video.nativeElement;
     navigator.getUserMedia(
       { video: {}, audio: false },
-      (stream) => (this.vid.srcObject = stream),
+      (stream) => (this.videoInput.srcObject = stream),
       (err) => console.log(err)
     );
-    console.log(this.canvasRef);
-    this.detectF();
+    this.detect_Faces();
   }
-  async detectF() {
-    // this.vid = document.getElementById('video');
+  async detect_Faces() {
     this.elRef.nativeElement
       .querySelector('video')
       .addEventListener('play', async () => {
-        this.canvas = await faceapi.createCanvasFromMedia(this.vid);
-        // console.log(this.video);
+        this.canvas = await faceapi.createCanvasFromMedia(this.videoInput);
 
-        document.getElementById('canvasEL').appendChild(this.canvas);
+        this.canvasEl = this.canvasRef.nativeElement; 
+        this.canvasEl.appendChild(this.canvas);
         this.canvas.setAttribute('id', 'canvass');
         this.canvas.setAttribute(
           'style',
@@ -63,14 +57,17 @@ export class WebcamSnapshotComponent implements OnInit {
         top: 0;
         left: 0;`
         );
+
         this.displaySize = {
-          width: this.vid.width,
-          height: this.vid.height,
+          width: this.videoInput.width,
+          height: this.videoInput.height,
         };
+
         faceapi.matchDimensions(this.canvas, this.displaySize);
+        
         setInterval(async () => {
           this.detection = await faceapi
-            .detectAllFaces(this.vid, new faceapi.TinyFaceDetectorOptions())
+            .detectAllFaces(this.videoInput, new faceapi.TinyFaceDetectorOptions())
             .withFaceLandmarks()
             .withFaceExpressions();
 
