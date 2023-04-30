@@ -39,12 +39,10 @@ export class WebcamSnapshotComponent implements OnInit {
   }
   startVideo() {
     this.vid = document.getElementById('video');
-    navigator.getUserMedia(
+    navigator.mediaDevices.getUserMedia(
       { video: {}, audio: false },
-      (stream) => (this.vid.srcObject = stream),
-      (err) => console.log(err)
-    );
-    console.log(this.canvasRef);
+    ).then((stream) => this.vid.srcObject = stream)
+      .catch((error) => console.log(error))
     this.detectF();
   }
   async detectF() {
